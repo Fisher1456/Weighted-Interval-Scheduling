@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "weighted-interval-scheduling"
+version = "0.0.1"
+description = "Weighted interval scheduling solver, heuristics, experiments, tests"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+viz = ["matplotlib>=3.8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
