@@ -3,7 +3,7 @@ import time
 from scheduling.model import Job
 from scheduling.weighted_interval import solve_weighted_interval
 from scheduling.heuristics import (
-    greedy_earliest_finish,
+    greedy_earliest_deadline,
     greedy_highest_weight,
     greedy_weight_density,
 )
@@ -29,7 +29,7 @@ def main():
     jobs = generate_jobs(200, seed=42)
 
     opt_val, _, opt_time = timed(solve_weighted_interval, jobs)
-    g1_val, _, g1_time = timed(greedy_earliest_finish, jobs)
+    g1_val, _, g1_time = timed(greedy_earliest_deadline, jobs)
     g2_val, _, g2_time = timed(greedy_highest_weight, jobs)
     g3_val, _, g3_time = timed(greedy_weight_density, jobs)
 

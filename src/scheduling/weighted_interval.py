@@ -1,5 +1,4 @@
 from bisect import bisect_right
-from typing import Tuple
 from .model import Job
 
 def _compute_previous_compatible_indices(jobs_sorted_by_end: list[Job]) -> list[int]:
@@ -10,14 +9,12 @@ def _compute_previous_compatible_indices(jobs_sorted_by_end: list[Job]) -> list[
     ends = [j.end for j in jobs_sorted_by_end]
     p: list[int] = []
     for i, job in enumerate(jobs_sorted_by_end):
-        # find rightmost end <= job.start among indices [0..i-1]
-        idx = bisect_right(ends, job.start) - 1
-        if idx >= i:
-            idx = i - 1
+        # find rightmost end <= job.start among indices [0...i-1]
+        idx = bisect_right(ends, job.start, 0, i) - 1
         p.append(idx)
     return p
 
-def solve_weighted_interval(jobs: list[Job]) -> Tuple[float, list[Job]]:
+def solve_weighted_interval(jobs: list[Job]) -> tuple[float, list[Job]]:
     """
     Returns (best_total_weight, selected_jobs) for the Weighted Interval Scheduling problem.
     """
@@ -32,8 +29,8 @@ def solve_weighted_interval(jobs: list[Job]) -> Tuple[float, list[Job]]:
     take = [False] * n
 
     for i in range(n):
-        include_weight = jobs_sorted[i].weight + (dp[p[i]] if p[i] != -1 else 0.0)
-        exclude_weight = dp[i - 1] if i > 0 else 0.0
+        include_weight = jobs_sorted[i].weight + (dp[p[i]] if p[i] != -1 else 0)
+        exclude_weight = dp[i - 1] if i > 0 else 0
         if include_weight > exclude_weight:
             dp[i] = include_weight
             take[i] = True
